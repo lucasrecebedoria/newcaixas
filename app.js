@@ -6,7 +6,7 @@ const STORAGE_REPORTS = "rpd_reports_v1";
 const STORAGE_SESSION = "rpd_session_v1";
 
 // Default admin matriculas (edit as needed)
-const DEFAULT_ADMINS = ["0001","admin"];
+const DEFAULT_ADMINS = ["6266","admin"];
 
 // Utilities
 function $(id){return document.getElementById(id)}
