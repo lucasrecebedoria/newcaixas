@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Relatório de Diferenças</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Relatório de Diferenças</h1>
+    <div class="actions">
+      <button id="logoutBtn" class="btn">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="authSection" class="card">
+      <div class="auth-col">
+        <h2>Entrar</h2>
+        <input id="loginMatricula" placeholder="Matrícula" />
+        <input id="loginSenha" placeholder="Senha" type="password" />
+        <button id="loginBtn" class="btn">Entrar</button>
+      </div>
+
+      <div class="auth-col register">
+        <h2>Cadastrar novo usuário</h2>
+        <input id="regMatricula" placeholder="Matrícula" />
+        <input id="regNome" placeholder="Nome" />
+        <input id="regSenha" placeholder="Senha" type="password" />
+        <button id="regBtn" class="btn">Cadastrar</button>
+      </div>
+    </section>
+
+    <section id="appSection" class="hidden">
+      <div class="toolbar">
+        <div class="user-info">
+          <span id="welcomeText"></span>
+        </div>
+
+        <div class="admin-controls hidden" id="adminControls">
+          <label>Filtrar por matrícula:
+            <input id="filterMatricula" placeholder="Digite matrícula ou deixe vazio"/>
+          </label>
+          <button id="filterBtn" class="btn">Filtrar</button>
+          <button id="clearFilterBtn" class="btn">Limpar</button>
+        </div>
+
+        <div class="new-report">
+          <h3>Novo Relatório</h3>
+          <label>Data do caixa: <input id="repData" type="date" /></label>
+          <label>Valor folha: <input id="repFolha" type="number" step="0.01" /></label>
+          <label>Valor em dinheiro: <input id="repDinheiro" type="number" step="0.01" /></label>
+          <label>Sobra/Falta: <input id="repSobra" readonly /></label>
+          <label>Observação: <input id="repObs" /></label>
+          <button id="saveReportBtn" class="btn">Salvar Relatório</button>
+        </div>
+      </div>
+
+      <section id="reportsList" class="reports"></section>
+    </section>
+
+    <footer class="footer">
+      <small>Este site salva dados no localStorage (navegador). Para produção, conecte a um backend.</small>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
