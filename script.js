@@ -1,14 +1,13 @@
 const app = document.getElementById('app');
 
 let currentUser = null;
-let reports = JSON.parse(localStorage.getItem('reports_v5') || '[]');
+let reports = JSON.parse(localStorage.getItem('reports_v6') || '[]');
 let users = JSON.parse(localStorage.getItem('users_v5') || '[]');
 
 const admins = ["0001","admin","6266","70029","4144"];
 
 function renderLogin(){
-    app.innerHTML = `
-    <header><h1>Relatório de Diferenças</h1></header>
+    app.innerHTML = `<header><h1>Relatório de Diferenças</h1></header>
     <div style="padding:20px;">
         <input id="matricula" placeholder="Matrícula"><br>
         <input id="senha" type="password" placeholder="Senha"><br>
@@ -18,8 +17,7 @@ function renderLogin(){
 }
 
 function renderRegister(){
-    app.innerHTML = `
-    <header><h1>Cadastrar Usuário</h1></header>
+    app.innerHTML = `<header><h1>Cadastrar Usuário</h1></header>
     <div style="padding:20px;">
         <input id="matricula" placeholder="Matrícula"><br>
         <input id="nome" placeholder="Nome"><br>
@@ -57,9 +55,18 @@ function logout(){
 
 function renderMain(){
     const isAdmin = admins.includes(currentUser.matricula);
-    let reportsHTML = reports.filter(r=>isAdmin || r.matricula===currentUser.matricula).map((r,i)=>`
-        <div class="report">
-            <strong>${r.data}</strong> - Matrícula: ${r.matricula}
+
+    let filterHTML = `<input type="date" id="filterDate">
+        <input type="text" id="filterMatricula" placeholder="Matrícula">
+        <button onclick="applyFilter()">Filtrar</button>
+        <button onclick="clearFilter()">Limpar filtros</button><hr>`;
+
+    let reportsHTML = reports.map((r,i)=>{
+        let show = isAdmin || r.matricula===currentUser.matricula;
+        if(!show) return "";
+        let alertText = r.posObs && r.posObs.text ? '<span class="alert">Verificar pós conferência</span>' : '';
+        return `<div class="report">
+            <strong>${r.data}</strong> - Matrícula: ${r.matricula} ${alertText}
             ${isAdmin ? `<button onclick="deleteReport(${i})">Excluir</button>` : ""}
             <button onclick="toggleReport(${i})">Ver/Esconder</button>
             <button onclick="openObsPopup(${i})">Pós conferência</button>
@@ -67,11 +74,10 @@ function renderMain(){
                 Folha: ${r.folha} | Dinheiro: ${r.dinheiro} | Sobra/Falta: ${r.sf}<br>
                 Observação: ${r.obs || ""}
             </div>
-        </div>
-    `).join("");
+        </div>`;
+    }).join("");
 
-    app.innerHTML = `
-    <header>
+    app.innerHTML = `<header>
         <h1>Relatório de Diferenças</h1>
         <div>${currentUser.nome} (${currentUser.matricula})
             <button onclick="changePassword()">Alterar Senha</button>
@@ -79,17 +85,12 @@ function renderMain(){
         </div>
     </header>
     <div style="padding:20px;">
-        ${isAdmin ? `
-        <select id="userSelect">
-            ${users.map(u=>`<option value="${u.matricula}">${u.matricula} - ${u.nome}</option>`).join('')}
-        </select><br>
+        ${isAdmin ? `<select id="userSelect">${users.map(u=>`<option value="${u.matricula}">${u.matricula} - ${u.nome}</option>`).join('')}</select><br>
         <input id="data" type="date"><br>
         <input id="folha" type="number" placeholder="Valor folha"><br>
         <input id="dinheiro" type="number" placeholder="Valor em dinheiro"><br>
         <input id="obs" placeholder="Observação"><br>
-        <button onclick="addReport()">Salvar</button>
-        ` : ""}
-        <hr>
+        <button onclick="addReport()">Salvar</button><br><br>${filterHTML}` : ""}
         ${reportsHTML}
     </div>`;
 }
@@ -101,15 +102,15 @@ function addReport(){
     const obs = document.getElementById('obs').value;
     const sf = (dinheiro - folha).toFixed(2);
     const matricula = document.getElementById('userSelect') ? document.getElementById('userSelect').value : currentUser.matricula;
-    reports.push({data, folha, dinheiro, sf, obs, matricula, posObs: ""});
-    localStorage.setItem('reports_v5', JSON.stringify(reports));
+    reports.push({data, folha, dinheiro, sf, obs, matricula, posObs: {text:"", images:[]} });
+    localStorage.setItem('reports_v6', JSON.stringify(reports));
     renderMain();
 }
 
 function deleteReport(i){
     if(confirm("Excluir este relatório?")){
         reports.splice(i,1);
-        localStorage.setItem('reports_v5', JSON.stringify(reports));
+        localStorage.setItem('reports_v6', JSON.stringify(reports));
         renderMain();
     }
 }
@@ -127,20 +128,35 @@ function openObsPopup(i){
     const popup = document.createElement('div');
     popup.className = 'popup';
 
-    popup.innerHTML = `
-        <h3>Obs pós conferência</h3>
-        <textarea id="posObsField" ${isAdmin?"":"readonly"}>${reports[i].posObs || ""}</textarea><br>
-        ${isAdmin ? `<button onclick="saveObs(${i})">Salvar</button>` : ""}
-        <button onclick="document.body.removeChild(document.querySelector('.overlay'))">Fechar</button>
-    `;
+    let imagesHTML = reports[i].posObs.images.map(src=>`<img src="${src}" onclick="window.open('${src}')">`).join('');
+    popup.innerHTML = `<h3>Obs pós conferência</h3>
+        <textarea id="posObsField" ${isAdmin?"":"readonly"}>${reports[i].posObs.text}</textarea><br>
+        ${isAdmin ? `<input type="file" id="imgInput" multiple><button onclick="addImages(${i})">Anexar imagens</button>
+        <button onclick="saveObs(${i})">Salvar</button>` : ""}
+        <div>${imagesHTML}</div>
+        <button onclick="document.body.removeChild(document.querySelector('.overlay'))">Fechar</button>`;
 
     overlay.appendChild(popup);
     document.body.appendChild(overlay);
 }
 
+function addImages(i){
+    const input = document.getElementById('imgInput');
+    const files = input.files;
+    Array.from(files).forEach(file=>{
+        const reader = new FileReader();
+        reader.onload = (e)=>{
+            reports[i].posObs.images.push(e.target.result);
+            localStorage.setItem('reports_v6', JSON.stringify(reports));
+            renderMain();
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
 function saveObs(i){
-    reports[i].posObs = document.getElementById('posObsField').value;
-    localStorage.setItem('reports_v5', JSON.stringify(reports));
+    reports[i].posObs.text = document.getElementById('posObsField').value;
+    localStorage.setItem('reports_v6', JSON.stringify(reports));
     document.body.removeChild(document.querySelector('.overlay'));
 }
 
@@ -150,6 +166,21 @@ function changePassword(){
     users = users.map(u => u.matricula === currentUser.matricula ? {...u, senha: nova} : u);
     localStorage.setItem('users_v5', JSON.stringify(users));
     alert("Senha alterada!");
+}
+
+function applyFilter(){
+    const date = document.getElementById('filterDate').value;
+    const mat = document.getElementById('filterMatricula').value.trim();
+    let filtered = JSON.parse(localStorage.getItem('reports_v6') || '[]');
+    if(date) filtered = filtered.filter(r=>r.data===date);
+    if(mat) filtered = filtered.filter(r=>r.matricula.includes(mat));
+    reports = filtered;
+    renderMain();
+}
+
+function clearFilter(){
+    reports = JSON.parse(localStorage.getItem('reports_v6') || '[]');
+    renderMain();
 }
 
 renderLogin();
