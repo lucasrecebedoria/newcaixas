@@ -10,31 +10,31 @@
   <header class="topbar">
     <h1>Relatório de Diferenças</h1>
     <div class="top-actions">
-      <span id="welcomeText"></span>
-      <button id="btnChangePwd" class="btn btn-sm">Alterar Senha</button>
-      <button id="btnLogout" class="btn btn-sm">Logout</button>
+      <span id="welcomeText" class="hidden"></span>
+      <button id="btnChangePwd" class="btn btn-sm hidden">Alterar Senha</button>
+      <button id="btnLogout" class="btn btn-sm hidden">Logout</button>
     </div>
   </header>
 
   <main class="container">
-    <!-- Login & Cadastro -->
+    <!-- LOGIN & CADASTRO -->
     <section id="authSection" class="card">
       <div class="col">
         <h2>Entrar</h2>
-        <input id="loginMatricula" placeholder="Matrícula"/>
-        <input id="loginSenha" type="password" placeholder="Senha"/>
+        <input id="loginMatricula" inputmode="numeric" autocomplete="username" placeholder="Matrícula"/>
+        <input id="loginSenha" type="password" autocomplete="current-password" placeholder="Senha"/>
         <button id="btnLogin" class="btn">Entrar</button>
       </div>
       <div class="col">
         <h2>Cadastrar novo usuário</h2>
-        <input id="regMatricula" placeholder="Matrícula"/>
+        <input id="regMatricula" inputmode="numeric" placeholder="Matrícula"/>
         <input id="regNome" placeholder="Nome"/>
         <input id="regSenha" type="password" placeholder="Senha"/>
         <button id="btnRegister" class="btn">Cadastrar</button>
       </div>
     </section>
 
-    <!-- App -->
+    <!-- APP -->
     <section id="appSection" class="hidden">
       <div class="toolbar">
         <div id="adminFilter" class="hidden">
@@ -67,7 +67,7 @@
     </footer>
   </main>
 
-  <!-- Pop-up Obs pós conferência -->
+  <!-- POP-UP Obs pós conferência -->
   <div id="obsPopup" class="popup hidden">
     <div class="popup-content">
       <span id="popupClose" class="close">&times;</span>
