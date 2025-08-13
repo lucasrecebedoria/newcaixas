@@ -1,84 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Relatório de Diferenças</title>
-  <link rel="stylesheet" href="styles.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Diferenças</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <h1>Relatório de Diferenças</h1>
-    <div class="top-actions">
-      <span id="welcomeText" class="hidden"></span>
-      <button id="btnChangePwd" class="btn btn-sm hidden">Alterar Senha</button>
-      <button id="btnLogout" class="btn btn-sm hidden">Logout</button>
-    </div>
-  </header>
-
-  <main class="container">
-    <!-- LOGIN & CADASTRO -->
-    <section id="authSection" class="card">
-      <div class="col">
-        <h2>Entrar</h2>
-        <input id="loginMatricula" inputmode="numeric" autocomplete="username" placeholder="Matrícula"/>
-        <input id="loginSenha" type="password" autocomplete="current-password" placeholder="Senha"/>
-        <button id="btnLogin" class="btn">Entrar</button>
-      </div>
-      <div class="col">
-        <h2>Cadastrar novo usuário</h2>
-        <input id="regMatricula" inputmode="numeric" placeholder="Matrícula"/>
-        <input id="regNome" placeholder="Nome"/>
-        <input id="regSenha" type="password" placeholder="Senha"/>
-        <button id="btnRegister" class="btn">Cadastrar</button>
-      </div>
-    </section>
-
-    <!-- APP -->
-    <section id="appSection" class="hidden">
-      <div class="toolbar">
-        <div id="adminFilter" class="hidden">
-          <label>Filtrar por matrícula:
-            <input id="filterMatricula" placeholder="ex.: 6266"/>
-          </label>
-          <button id="btnFilter" class="btn btn-sm">Filtrar</button>
-          <button id="btnClearFilter" class="btn btn-sm">Limpar</button>
-        </div>
-
-        <div class="new-report">
-          <h3>Novo Relatório</h3>
-          <div class="grid">
-            <label>Data do caixa <input type="date" id="repData"/></label>
-            <label>Valor folha <input type="number" step="0.01" id="repFolha"/></label>
-            <label>Valor em dinheiro <input type="number" step="0.01" id="repDinheiro"/></label>
-            <label>Sobra/Falta <input id="repSobra" readonly/></label>
-            <label>Observação <input id="repObs"/></label>
-            <label>Obs pós conferência <input id="repObsConf"/></label>
-          </div>
-          <button id="btnSaveReport" class="btn">Salvar relatório</button>
-        </div>
-      </div>
-
-      <section id="reportsList" class="reports"></section>
-    </section>
-
-    <footer class="footer">
-      <small>Dados são salvos no localStorage do navegador. Para produção, use um backend seguro.</small>
-    </footer>
-  </main>
-
-  <!-- POP-UP Obs pós conferência -->
-  <div id="obsPopup" class="popup hidden">
-    <div class="popup-content">
-      <span id="popupClose" class="close">&times;</span>
-      <h3>Obs pós conferência</h3>
-      <textarea id="popupTextarea"></textarea>
-      <div class="popup-actions">
-        <button id="popupSave" class="btn hidden">Salvar</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="app.js"></script>
+<div id="app"></div>
+<script src="script.js"></script>
 </body>
 </html>
