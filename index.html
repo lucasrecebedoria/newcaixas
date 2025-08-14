@@ -3,11 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Relatório de Diferenças</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>Relatório de Usuários</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { padding: 5px; margin: 5px 0; }
+    #usuarios { margin-top: 20px; }
+  </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="script.js"></script>
+  <h1>Cadastro de Usuários</h1>
+
+  <label>Nome:</label><br>
+  <input type="text" id="nome" placeholder="Digite seu nome"><br>
+
+  <label>Matrícula:</label><br>
+  <input type="text" id="matricula" placeholder="Digite sua matrícula"><br>
+
+  <button id="btnSalvar">Salvar</button>
+
+  <div id="usuarios">
+    <h2>Usuários cadastrados:</h2>
+    <ul id="listaUsuarios"></ul>
+  </div>
+
+  <!-- Firebase App -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
+
+  <!-- Configuração Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBdmIYK4Zy6MbEsT3pc5W_YkbdKtOUOzto",
+      authDomain: "caixas-b09fb.firebaseapp.com",
+      projectId: "caixas-b09fb",
+      storageBucket: "caixas-b09fb.firebasestorage.app",
+      messagingSenderId: "93898531144",
+      appId: "1:93898531144:web:d62e34c97865133644137d",
+      measurementId: "G-SSWHWFZ7FT"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const analytics = firebase.analytics(app);
+    const db = firebase.firestore();
+  </script>
+
+  <!-- Script do site -->
+  <script>
+    const btnSalvar = document.getElementById("btnSalvar");
+    const listaUsuarios = document.getElementById("listaUsuarios");
+
+    // Salvar usuário com matrícula como ID
+    btnSalvar.addEventListener("click", () => {
+      const nome = document.getElementById("nome").value.trim();
+      const matricula = document.getElementById("matricula").value.trim();
+
+      if (nome === "" || matricula === "") {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      db.collection("usuarios").doc(matricula).set({
+        nome: nome,
+        matricula: matricula
+      })
+      .then(() => {
+        alert("Usuário salvo com sucesso!");
+        document.getElementById("nome").value = "";
+        document.getElementById("matricula").value = "";
+        carregarUsuarios();
+      })
+      .catch(error => console.error("Erro ao salvar:", error));
+    });
+
+    // Carregar usuários do Firestore
+    function carregarUsuarios() {
+      listaUsuarios.innerHTML = "";
+      db.collection("usuarios").get()
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
+            const li = document.createElement("li");
+            li.textContent = `${doc.data().nome} - ${doc.data().matricula}`;
+            listaUsuarios.appendChild(li);
+          });
+        })
+        .catch(error => console.error("Erro ao carregar usuários:", error));
+    }
+
+    // Carregar ao abrir a página
+    window.onload = carregarUsuarios;
+  </script>
 </body>
 </html>
