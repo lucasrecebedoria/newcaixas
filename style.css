@@ -1,34 +1,42 @@
-:root{
-  --green:#00ff66; --panel: rgba(0,0,0,0.6); --text:#eaeaea; --border:#1aff7a;
+body {
+  font-family: 'Verdana', sans-serif;
+  background: linear-gradient(135deg, #1c1c1c, #4c4c4c);
+  color: #e0e0e0;
+  margin:0; padding:0;
 }
-*{box-sizing:border-box}html,body{height:100%}
-body{margin:0;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;color:var(--text);
-  background:
-    linear-gradient(180deg,#080808 0%, #0f0f0f 40%, #161616 100%),
-    url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"28\" height=\"28\"><defs><pattern id=\"c\" patternUnits=\"userSpaceOnUse\" width=\"28\" height=\"28\" patternTransform=\"skewX(-20)\"><rect width=\"28\" height=\"28\" fill=\"%23111111\"/><path d=\"M0 14 h28\" stroke=\"%23262626\" stroke-width=\"6\"/></pattern></defs><rect width=\"100%\" height=\"100%\" fill=\"url(%23c)\"/></svg>');
-  background-blend-mode: overlay;}
-header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:2px solid var(--border);
-  background:linear-gradient(180deg,#0e0e0e,#0b0b0b);position:sticky;top:0;z-index:10}
-header h1{margin:0;font-weight:800;letter-spacing:.5px}
-.badge{display:inline-block;padding:2px 8px;border:1px solid var(--border);border-radius:999px;margin-left:8px;color:var(--green)}
-.container{max-width:980px;margin:0 auto;padding:20px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin:10px 0;box-shadow:0 8px 24px rgba(0,0,0,.35)}
-input,select,textarea,button{border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,.35);color:var(--text);padding:10px 12px}
-input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 3px rgba(0,255,102,.2)}
-button{cursor:pointer;font-weight:700;transition:.25s;background:linear-gradient(180deg,#0f0f0f,#141414);color:#00ff66}
-button:hover{filter:brightness(1.2)}
-.row{display:flex;gap:10px;flex-wrap:wrap}.row > *{flex:1 1 220px}
-.report{border:1px solid var(--border);border-radius:14px;padding:12px;background:rgba(0,0,0,.5);margin:10px 0}
-.report .head{display:flex;align-items:center;gap:8px;justify-content:space-between}
-.report .meta{opacity:.9;font-size:.95rem}.hidden{display:none}
-.alert{color:#ff4d4d;font-weight:800;margin-left:8px}
-hr{border:none;border-top:1px solid #2a2a2a;margin:16px 0}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999}
-.popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(680px,92vw);max-height:85vh;overflow:auto;background:#121212;border:2px solid var(--border);border-radius:16px;padding:16px;z-index:10000;text-align:center}
-.popup h3{margin-top:0}.popup textarea{width:100%;min-height:140px;background:#1a1a1a}
-.thumb{display:flex;align-items:center;gap:8px;margin:6px 0}
-.thumb img{width:84px;height:64px;object-fit:cover;border:1px solid var(--border);border-radius:8px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, \"Liberation Mono\", monospace;font-size:.85rem;padding:0 6px;border:1px solid #2f2f2f;border-radius:6px;background:#0e0e0e}
-.chip{display:inline-block;padding:4px 10px;border:1px solid var(--border);border-radius:999px;margin:4px 6px 0 0}.group{cursor:pointer}.group:hover{filter:brightness(1.15)}
-.small{font-size:.9rem;opacity:.9}
+.title {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 2em;
+  background: linear-gradient(90deg, #ffffff, #b8b8b8, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 1px 1px 3px #000;
+}
+button {
+  background: linear-gradient(145deg, #d9d9d9, #ffffff, #d9d9d9);
+  color: #000;
+  border: 1px solid #666;
+  border-radius: 5px;
+  padding: 5px 10px;
+  box-shadow: 1px 1px 3px #000;
+}
+button.accent {
+  background: linear-gradient(145deg, #b8b8b8, #ffffff, #b8b8b8);
+}
+button.danger {
+  background: linear-gradient(145deg, #a00000, #ff4c4c);
+}
+.card {
+  background: linear-gradient(145deg, #2a2a2a, #505050);
+  padding: 10px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px #000;
+}
+input, select, textarea {
+  background: #3c3c3c;
+  color: #e0e0e0;
+  border: 1px solid #666;
+  border-radius: 5px;
+  padding: 5px;
+}
