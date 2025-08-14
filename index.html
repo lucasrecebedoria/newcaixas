@@ -7,7 +7,13 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div id="app"></div>
+  <!-- Conteúdo original do site -->
+  <div id="app">
+    <!-- Todo o conteúdo e botões existentes permanecem aqui -->
+  </div>
+
+  <!-- Container separado só para a lista de usuários -->
+  <div id="listaUsuariosContainer"></div>
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
@@ -30,7 +36,7 @@
     const db = firebase.firestore();
   </script>
 
-  <!-- Seu script principal -->
+  <!-- Script principal -->
   <script src="script.js"></script>
 </body>
 </html>
