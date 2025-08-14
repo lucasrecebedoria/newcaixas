@@ -1,13 +1,80 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Relatório de Diferenças</title>
-  <link rel="stylesheet" href="style.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Diferenças</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #2f2f2f, #5e5e5e);
+    background-image: url('metal-texture.jpg');
+    background-size: cover;
+    color: #fff;
+}
+header {
+    padding: 20px;
+    text-align: center;
+}
+h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(45deg, #c0c0c0, #8c8c8c, #e0e0e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.3);
+}
+button {
+    background: linear-gradient(45deg, #b0b0b0, #707070);
+    border: none;
+    padding: 8px 14px;
+    color: #000;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    cursor: pointer;
+    margin: 5px;
+}
+button:hover {
+    background: linear-gradient(45deg, #d0d0d0, #909090);
+}
+.filtro-data {
+    text-align: center;
+    margin: 10px 0;
+}
+input[type="date"] {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+</style>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="script.js"></script>
+<header>
+    <h1>Relatório de Diferenças</h1>
+    <button onclick="logout()">Logout</button>
+</header>
+
+<div class="filtro-data">
+    <label for="dataFiltro">Filtrar por Data:</label>
+    <input type="date" id="dataFiltro">
+    <button onclick="filtrarPorData()">Filtrar</button>
+</div>
+
+<div id="relatorios">
+    <!-- Relatórios aparecerão aqui -->
+</div>
+
+<script>
+function logout(){
+    alert("Logout realizado!");
+}
+function filtrarPorData(){
+    let data = document.getElementById("dataFiltro").value;
+    alert("Filtrando relatórios para: " + data);
+}
+</script>
 </body>
 </html>
