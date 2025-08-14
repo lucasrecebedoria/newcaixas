@@ -26,13 +26,13 @@
     <ul id="listaUsuarios"></ul>
   </div>
 
-  <!-- Firebase App -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
 
-  <!-- Configuração Firebase -->
   <script>
+    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBdmIYK4Zy6MbEsT3pc5W_YkbdKtOUOzto",
       authDomain: "caixas-b09fb.firebaseapp.com",
@@ -46,14 +46,12 @@
     const app = firebase.initializeApp(firebaseConfig);
     const analytics = firebase.analytics(app);
     const db = firebase.firestore();
-  </script>
 
-  <!-- Script do site -->
-  <script>
+    // Elementos do DOM
     const btnSalvar = document.getElementById("btnSalvar");
     const listaUsuarios = document.getElementById("listaUsuarios");
 
-    // Salvar usuário com matrícula como ID
+    // Função para salvar usuário
     btnSalvar.addEventListener("click", () => {
       const nome = document.getElementById("nome").value.trim();
       const matricula = document.getElementById("matricula").value.trim();
@@ -63,6 +61,7 @@
         return;
       }
 
+      // Matrícula como ID do documento
       db.collection("usuarios").doc(matricula).set({
         nome: nome,
         matricula: matricula
@@ -76,7 +75,7 @@
       .catch(error => console.error("Erro ao salvar:", error));
     });
 
-    // Carregar usuários do Firestore
+    // Função para carregar usuários
     function carregarUsuarios() {
       listaUsuarios.innerHTML = "";
       db.collection("usuarios").get()
@@ -90,7 +89,7 @@
         .catch(error => console.error("Erro ao carregar usuários:", error));
     }
 
-    // Carregar ao abrir a página
+    // Carregar usuários ao abrir a página
     window.onload = carregarUsuarios;
   </script>
 </body>
