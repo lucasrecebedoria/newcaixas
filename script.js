@@ -39,12 +39,12 @@ function carregarUsuarios() {
     .catch(err => console.error("Erro ao carregar usuários:", err));
 }
 
-// Atualiza apenas o container da lista, sem afetar o site
+// Atualiza apenas o container separado do Firebase
 function atualizarLayoutUsuarios(usuarios) {
-  const container = document.getElementById("listaUsuariosContainer");
+  const container = document.getElementById("firebaseUsuarios"); // container exclusivo
   if (!container) return;
 
-  container.innerHTML = ""; // limpa apenas a lista
+  container.innerHTML = ""; // limpa apenas este container
 
   const ul = document.createElement("ul");
   usuarios.forEach(user => {
@@ -65,5 +65,5 @@ if (btnSalvar) {
 // Carrega usuários ao abrir a página
 window.onload = () => {
   carregarUsuarios();
-  if (typeof initApp === "function") initApp(); // mantém inicializações antigas
+  if (typeof initApp === "function") initApp(); // mantém inicializações antigas do site
 };
