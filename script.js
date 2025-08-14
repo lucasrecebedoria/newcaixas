@@ -1,4 +1,76 @@
-const app = document.getElementById('app');
+// ====== FIREBASE ======
+// A variável `db` já vem do script do index.html
+
+// Função para salvar usuário usando matrícula como ID
+function salvarUsuario() {
+  // Pegando os valores dos inputs existentes no site
+  const nomeInput = document.getElementById("nome");
+  const matriculaInput = document.getElementById("matricula");
+
+  if (!nomeInput || !matriculaInput) return; // Se inputs não existirem, sai
+
+  const nome = nomeInput.value.trim();
+  const matricula = matriculaInput.value.trim();
+
+  if (!nome || !matricula) {
+    alert("Preencha todos os campos!");
+    return;
+  }
+
+  db.collection("usuarios").doc(matricula).set({
+    nome,
+    matricula
+  })
+  .then(() => {
+    console.log(`Usuário ${nome} salvo com matrícula ${matricula}`);
+    nomeInput.value = "";
+    matriculaInput.value = "";
+    carregarUsuarios(); // Atualiza lista
+  })
+  .catch(err => console.error("Erro ao salvar usuário:", err));
+}
+
+// Função para carregar usuários e atualizar layout
+function carregarUsuarios() {
+  db.collection("usuarios").get()
+    .then(snapshot => {
+      const usuarios = snapshot.docs.map(doc => doc.data());
+      atualizarLayoutUsuarios(usuarios);
+    })
+    .catch(err => console.error("Erro ao carregar usuários:", err));
+}
+
+// Atualiza o layout dentro de um container existente
+function atualizarLayoutUsuarios(usuarios) {
+  const container = document.getElementById("app"); // Mantém seu layout original
+  if (!container) return;
+
+  container.innerHTML = ""; // Limpa conteúdo antigo
+
+  const ul = document.createElement("ul");
+  usuarios.forEach(user => {
+    const li = document.createElement("li");
+    li.textContent = `${user.nome} - ${user.matricula}`;
+    ul.appendChild(li);
+  });
+
+  container.appendChild(ul);
+}
+
+// Adiciona evento no botão que já existe no seu HTML
+const btnSalvar = document.getElementById("btnSalvar");
+if (btnSalvar) {
+  btnSalvar.addEventListener("click", salvarUsuario);
+}
+
+// Carrega usuários quando a página abre
+window.onload = () => {
+  carregarUsuarios();
+  if (typeof initApp === "function") initApp(); // mantém inicializações antigas
+};
+
+
+simconst app = document.getElementById('app');
 let currentUser = null;
 let reports = JSON.parse(localStorage.getItem('reports_v8') || '[]');
 let users = JSON.parse(localStorage.getItem('users_v6') || '[]');

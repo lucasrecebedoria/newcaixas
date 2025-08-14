@@ -9,31 +9,12 @@
 <body>
   <div id="app"></div>
 
-  <!-- Formulário para cadastro de usuários -->
-  <div id="cadastroUsuarios">
-    <h2>Cadastro de Usuários</h2>
-    <label>Nome:</label><br>
-    <input type="text" id="nome" placeholder="Digite seu nome"><br>
-    <label>Matrícula:</label><br>
-    <input type="text" id="matricula" placeholder="Digite sua matrícula"><br>
-    <button id="btnSalvar">Salvar</button>
-
-    <div id="usuarios">
-      <h3>Usuários cadastrados:</h3>
-      <ul id="listaUsuarios"></ul>
-    </div>
-  </div>
-
-  <!-- Seu script principal -->
-  <script src="script.js"></script>
-
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
 
   <script>
-    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBdmIYK4Zy6MbEsT3pc5W_YkbdKtOUOzto",
       authDomain: "caixas-b09fb.firebaseapp.com",
@@ -47,53 +28,9 @@
     const app = firebase.initializeApp(firebaseConfig);
     const analytics = firebase.analytics(app);
     const db = firebase.firestore();
-
-    // Elementos do DOM
-    const btnSalvar = document.getElementById("btnSalvar");
-    const listaUsuarios = document.getElementById("listaUsuarios");
-
-    // Função para salvar usuário com matrícula como ID
-    btnSalvar.addEventListener("click", () => {
-      const nome = document.getElementById("nome").value.trim();
-      const matricula = document.getElementById("matricula").value.trim();
-
-      if (nome === "" || matricula === "") {
-        alert("Preencha todos os campos!");
-        return;
-      }
-
-      db.collection("usuarios").doc(matricula).set({
-        nome: nome,
-        matricula: matricula
-      })
-      .then(() => {
-        alert("Usuário salvo com sucesso!");
-        document.getElementById("nome").value = "";
-        document.getElementById("matricula").value = "";
-        carregarUsuarios();
-      })
-      .catch(error => console.error("Erro ao salvar:", error));
-    });
-
-    // Função para carregar usuários
-    function carregarUsuarios() {
-      listaUsuarios.innerHTML = "";
-      db.collection("usuarios").get()
-        .then(snapshot => {
-          snapshot.docs.forEach(doc => {
-            const li = document.createElement("li");
-            li.textContent = `${doc.data().nome} - ${doc.data().matricula}`;
-            listaUsuarios.appendChild(li);
-          });
-        })
-        .catch(error => console.error("Erro ao carregar usuários:", error));
-    }
-
-    // Carregar usuários ao abrir a página
-    window.onload = () => {
-      carregarUsuarios();
-      if (typeof initApp === "function") initApp(); // caso script.js tenha função de inicialização
-    };
   </script>
+
+  <!-- Seu script principal -->
+  <script src="script.js"></script>
 </body>
 </html>
