@@ -3,28 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Relatório de Usuários</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    input, button { padding: 5px; margin: 5px 0; }
-    #usuarios { margin-top: 20px; }
-  </style>
+  <title>Relatório de Diferenças</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>Cadastro de Usuários</h1>
+  <div id="app"></div>
 
-  <label>Nome:</label><br>
-  <input type="text" id="nome" placeholder="Digite seu nome"><br>
+  <!-- Formulário para cadastro de usuários -->
+  <div id="cadastroUsuarios">
+    <h2>Cadastro de Usuários</h2>
+    <label>Nome:</label><br>
+    <input type="text" id="nome" placeholder="Digite seu nome"><br>
+    <label>Matrícula:</label><br>
+    <input type="text" id="matricula" placeholder="Digite sua matrícula"><br>
+    <button id="btnSalvar">Salvar</button>
 
-  <label>Matrícula:</label><br>
-  <input type="text" id="matricula" placeholder="Digite sua matrícula"><br>
-
-  <button id="btnSalvar">Salvar</button>
-
-  <div id="usuarios">
-    <h2>Usuários cadastrados:</h2>
-    <ul id="listaUsuarios"></ul>
+    <div id="usuarios">
+      <h3>Usuários cadastrados:</h3>
+      <ul id="listaUsuarios"></ul>
+    </div>
   </div>
+
+  <!-- Seu script principal -->
+  <script src="script.js"></script>
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
@@ -51,7 +52,7 @@
     const btnSalvar = document.getElementById("btnSalvar");
     const listaUsuarios = document.getElementById("listaUsuarios");
 
-    // Função para salvar usuário
+    // Função para salvar usuário com matrícula como ID
     btnSalvar.addEventListener("click", () => {
       const nome = document.getElementById("nome").value.trim();
       const matricula = document.getElementById("matricula").value.trim();
@@ -61,7 +62,6 @@
         return;
       }
 
-      // Matrícula como ID do documento
       db.collection("usuarios").doc(matricula).set({
         nome: nome,
         matricula: matricula
@@ -90,7 +90,10 @@
     }
 
     // Carregar usuários ao abrir a página
-    window.onload = carregarUsuarios;
+    window.onload = () => {
+      carregarUsuarios();
+      if (typeof initApp === "function") initApp(); // caso script.js tenha função de inicialização
+    };
   </script>
 </body>
 </html>
